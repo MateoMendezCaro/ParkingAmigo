@@ -1,4 +1,4 @@
-package com.example.parkingamigo.ui.navigation
+package com.example.parkingamigo.navigation
 
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavHost

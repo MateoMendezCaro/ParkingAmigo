@@ -1,4 +1,4 @@
-package com.example.parkingamigo.ui.navigation
+package com.example.parkingamigo.navigation
 
 sealed class NavRoutes(val route: String) {
     object Welcome : NavRoutes("welcome")
