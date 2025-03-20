@@ -21,4 +21,5 @@ dependencyResolutionManagement {
 
 rootProject.name = "ParkingAmigo"
 include(":app")
- 
+include(":data")
+include(":domain")

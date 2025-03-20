@@ -5,11 +5,11 @@ plugins {
 }
 
 android {
-    namespace = "com.example.parkingamigo"
+    namespace = "com.app.parkingamigo"
     compileSdk = 35
 
     defaultConfig {
-        applicationId = "com.example.parkingamigo"
+        applicationId = "com.app.parkingamigo"
         minSdk = 26
         targetSdk = 35
         versionCode = 1
@@ -27,20 +27,32 @@ android {
             )
         }
     }
+
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_11
-        targetCompatibility = JavaVersion.VERSION_11
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
     }
+
     kotlinOptions {
-        jvmTarget = "11"
+        jvmTarget = "17"
     }
+
     buildFeatures {
         compose = true
     }
 }
 
 dependencies {
+    // Room Database (cambiar ksp por kapt)
+    implementation(libs.androidx.room.runtime)
+    implementation(libs.androidx.room.ktx)
 
+    // Coroutines para Room
+    implementation(libs.kotlinx.coroutines.android)
+    implementation(libs.kotlinx.coroutines.core)
+
+
+    // AndroidX y Jetpack Compose
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.androidx.activity.compose)
@@ -48,14 +60,22 @@ dependencies {
     implementation(libs.androidx.ui)
     implementation(libs.androidx.ui.graphics)
     implementation(libs.androidx.ui.tooling.preview)
-    implementation(libs.androidx.material3)
-    implementation(libs.androidx.navigation.runtime.android)
+    implementation(libs.material3)
+
+    // Navigation en Jetpack Compose
+    implementation(libs.androidx.navigation.runtime.ktx)
     implementation(libs.androidx.navigation.compose)
+
+    // Proyectos internos (Módulos)
+    implementation(project(":data"))
+    implementation(project(":domain"))
+
+    // Dependencias para pruebas
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
     androidTestImplementation(platform(libs.androidx.compose.bom))
-    androidTestImplementation(libs.androidx.ui.test.junit4)
-    debugImplementation(libs.androidx.ui.tooling)
-    debugImplementation(libs.androidx.ui.test.manifest)
+    androidTestImplementation(libs.ui.test.junit4)
+    debugImplementation(libs.ui.tooling)
+    debugImplementation(libs.ui.test.manifest)
 }
