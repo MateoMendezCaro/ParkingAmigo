@@ -15,14 +15,15 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.app.parkingapp.components.parkingTemplate.ParkingScreen
 import com.app.parkingapp.movimiento.viewModel.MovimientosViewModel
+import androidx.lifecycle.viewmodel.compose.viewModel
 
 @Composable
 fun MovimientoDetalleScreen(
     navController: NavController,
     movimientoId: Int,
-    viewModel: MovimientosViewModel = androidx.lifecycle.viewmodel.compose.viewModel()
+    viewModel: MovimientosViewModel = viewModel()
 ) {
-    val movimiento = viewModel.movimientos.collectAsState().value.find { it.id == movimientoId }
+    val movimiento = viewModel.getMovimientoById(movimientoId)
 
     ParkingScreen(navController) {
         movimiento?.let {
@@ -40,32 +41,18 @@ fun MovimientoDetalleScreen(
                         .background(Color(0xFFF5F3EF), RoundedCornerShape(12.dp))
                         .padding(24.dp),
                     verticalArrangement = Arrangement.Center,
-                    horizontalAlignment = Alignment.CenterHorizontally,
+                    horizontalAlignment = Alignment.CenterHorizontally
                 ) {
                     Text(text = it.fecha, fontSize = 16.sp, color = Color.Black)
-
                     Spacer(modifier = Modifier.height(40.dp))
-
                     Text(text = it.descripcion, fontSize = 18.sp, color = Color.Black)
-
                     Spacer(modifier = Modifier.height(50.dp))
-
-                    Text(
-                        text = "$ ${it.precio}",
-                        fontSize = 26.sp,
-                        color = Color(0xFF1A7895)
-                    )
-
+                    Text(text = "$ ${it.precio}", fontSize = 26.sp, color = Color(0xFF1A7895))
                     Spacer(modifier = Modifier.height(50.dp))
-
                     Text(text = "descargar: ${it.comprobante}", fontSize = 16.sp, color = Color.Black)
-
                     Spacer(modifier = Modifier.height(38.dp))
-
                     Text(text = it.referencia, fontSize = 16.sp, color = Color.Black)
-
                     Spacer(modifier = Modifier.height(38.dp))
-
                     Text(text = it.dispositivo, fontSize = 16.sp, color = Color.Black)
                 }
             }

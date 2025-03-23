@@ -49,23 +49,23 @@ fun MovimientosScreen(navController: NavController) {
                         navController.navigate("${NavRoutes.MovementDetail.route}/${movimiento.id}")
                     }
 
-                    if (index == movimientos.lastIndex) {
-                        SideEffect {
+                    if (index == movimientos.lastIndex && movimientos.size < 24) {
+                        LaunchedEffect(Unit) {
                             viewModel.loadMore()
                         }
                     }
                 }
             }
-
             Icon(
                 imageVector = Icons.Default.KeyboardArrowUp,
                 contentDescription = "Cargar más",
-                modifier = Modifier.padding(8.dp)
+                modifier = Modifier.padding(6.dp)
             )
-            Text("Cargar movimientos", modifier = Modifier.padding(bottom = 8.dp))
+            Text("Cargar movimientos", modifier = Modifier.padding(bottom = 6.dp))
         }
     }
 }
+
 
 @Composable
 fun MovimientoCard(movimiento: MovementItem, onClick: () -> Unit) {
