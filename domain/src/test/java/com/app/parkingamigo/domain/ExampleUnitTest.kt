@@ -1,4 +1,4 @@
-package com.example.parkingamigo
+package com.app.parkingamigo.domain
 
 import org.junit.Test
 

@@ -18,7 +18,7 @@ dependencyResolutionManagement {
         mavenCentral()
     }
 }
-
-rootProject.name = "ParkingAmigo"
+rootProject.name = "ParkingApp"
 include(":app")
- 
+include(":data")
+include(":domain")
