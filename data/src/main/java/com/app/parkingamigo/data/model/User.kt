@@ -1,4 +1,6 @@
+/*
 package com.app.parkingamigo.data.model
+
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 
@@ -7,3 +9,4 @@ data class User(
     @PrimaryKey val cedula: String,
     val password: String
 )
+*/

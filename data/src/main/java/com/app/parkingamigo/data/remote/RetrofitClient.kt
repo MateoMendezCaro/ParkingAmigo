@@ -1,3 +1,4 @@
+/*
 package com.app.parkingamigo.data.remote
 
 import retrofit2.Retrofit
@@ -16,4 +17,4 @@ object RetrofitClient {
     val apiService: ApiService by lazy {
         retrofit.create(ApiService::class.java)
     }
-}
+}*/

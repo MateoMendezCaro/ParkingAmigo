@@ -86,7 +86,7 @@ fun ContenidoTarifa(tipo: VehiculoTipo, navController: NavController) {
         Spacer(modifier = Modifier.height(16.dp))
 
         Button(
-            onClick = { navController.navigate(NavRoutes.pricingDetail.route) },
+            onClick = { navController.navigate(NavRoutes.PricingDetail.route) },
             colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF1565C0)),
             modifier = Modifier.fillMaxWidth().height(48.dp),
             shape = RoundedCornerShape(8.dp)
@@ -97,7 +97,7 @@ fun ContenidoTarifa(tipo: VehiculoTipo, navController: NavController) {
         Spacer(modifier = Modifier.height(8.dp))
 
         Button(
-            onClick = { navController.navigate(NavRoutes.pricingDetail.route) },
+            onClick = { navController.navigate(NavRoutes.PricingDetail.route) },
             colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF1565C0)),
             modifier = Modifier.fillMaxWidth().height(48.dp),
             shape = RoundedCornerShape(8.dp)

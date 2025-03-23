@@ -41,7 +41,7 @@ fun WelcomeScreen(navController: NavController) {
             modifier = Modifier
                 .weight(1f)
                 .fillMaxWidth()
-                .background(Color(0xFF003366)),
+                .background(Color(0xFFFF9500)),
             contentAlignment = Alignment.Center
         ) {
             Column(
@@ -49,7 +49,7 @@ fun WelcomeScreen(navController: NavController) {
             ) {
                 Text(
                     text = "BIENVENIDOS",
-                    color = Color.White,
+                    color = Color.Black,
                     fontSize = 24.sp,
                     fontWeight = FontWeight.Bold,
                     fontStyle = FontStyle.Italic,
@@ -60,7 +60,7 @@ fun WelcomeScreen(navController: NavController) {
 
                 Text(
                     text = "Inicia sesión para realizar el pago del parqueadero y/o verificar tu saldo",
-                    color = Color.White,
+                    color = Color.Black,
                     fontSize = 16.sp,
                     textAlign = TextAlign.Center,
                     modifier = Modifier.padding(horizontal = 24.dp)
@@ -70,7 +70,7 @@ fun WelcomeScreen(navController: NavController) {
 
                 Button(
                     onClick = { navController.navigate(NavRoutes.Login.route) },
-                    shape = RoundedCornerShape(8.dp),
+                    shape = RoundedCornerShape(10.dp),
                     colors = ButtonDefaults.buttonColors(containerColor = Color.White),
                     modifier = Modifier
                         .width(200.dp)
