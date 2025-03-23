@@ -41,7 +41,6 @@ class MovimientosViewModel : ViewModel() {
         MovementItem(23, "Recarga desde Davivienda", "13 Mar 2025", "11.000", "REF33333", "COM33333", "Celular"),
         MovementItem(24, "Recarga desde Nequi", "13 Mar 2025", "9.000", "REF44444", "COM44444", "Tablet"),
     )
-
     init {
         loadMore()
     }
@@ -52,5 +51,9 @@ class MovimientosViewModel : ViewModel() {
             _movimientos.value = _movimientos.value + nextPage
             currentPage++
         }
+    }
+
+    fun getMovimientoById(id: Int): MovementItem? {
+        return allMovimientos.find { it.id == id }
     }
 }
