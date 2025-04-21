@@ -1,7 +1,12 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.app.parkingapp">
 
+    <!-- Grant app permission to use network sockets -->
+    <uses-permission android:name="android.permission.INTERNET"/>
+
     <application
+        android:name=".ParkingApp"
+        android:usesCleartextTraffic="true"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="ParkingApp"
@@ -9,11 +14,11 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.ParkingApp">
 
-        <activity android:name="com.app.parkingapp.MainActivity"
+        <activity
+            android:name="com.app.parkingapp.MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
