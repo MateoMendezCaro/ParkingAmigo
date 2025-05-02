@@ -26,7 +26,6 @@ fun LoginScreen(navController: NavController) {
 
     var cedula by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
-
     val errorMessage by viewModel.errorMessage.collectAsState()
     val loginSuccess by viewModel.loginSuccess.collectAsState()
     val scope = rememberCoroutineScope()
@@ -39,98 +38,89 @@ fun LoginScreen(navController: NavController) {
         }
     }
 
-    Column(
+    Box(
         modifier = Modifier
             .fillMaxSize()
             .background(Color.White)
-            .padding(horizontal = 24.dp),
-        horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Spacer(modifier = Modifier.height(40.dp))
-
+        // 1) Logo arriba, sin padding lateral
         Image(
             painter = painterResource(id = R.drawable.logo_parking_amigo),
             contentDescription = "Logo Parking Amigo",
             modifier = Modifier
                 .fillMaxWidth()
-                .height(80.dp)
+                .padding(top = 10.dp)
         )
 
-        Spacer(modifier = Modifier.height(40.dp))
-
-        Text(
-            text = "Iniciar Sesión",
-            fontSize = 28.sp,
-            fontWeight = FontWeight.Bold
-        )
-
-        Spacer(modifier = Modifier.height(24.dp))
-
-        TextField(
-            value = cedula,
-            onValueChange = { cedula = it },
-            label = { Text("Cédula") },
-            singleLine = true,
-            colors = TextFieldDefaults.colors(
-                focusedContainerColor = Color(0xFFF5F3EF),
-                unfocusedContainerColor = Color(0xFFF5F3EF),
-                disabledContainerColor = Color(0xFFF5F3EF),
-                focusedIndicatorColor = Color.Transparent,
-                unfocusedIndicatorColor = Color.Transparent,
-                disabledIndicatorColor = Color.Transparent
-            ),
-            shape = RoundedCornerShape(8.dp),
-            modifier = Modifier.fillMaxWidth()
-        )
-
-        Spacer(modifier = Modifier.height(16.dp))
-
-        TextField(
-            value = password,
-            onValueChange = { password = it },
-            label = { Text("Contraseña") },
-            singleLine = true,
-            colors = TextFieldDefaults.colors(
-                focusedContainerColor = Color(0xFFF5F3EF),
-                unfocusedContainerColor = Color(0xFFF5F3EF),
-                disabledContainerColor = Color(0xFFF5F3EF),
-                focusedIndicatorColor = Color.Transparent,
-                unfocusedIndicatorColor = Color.Transparent,
-                disabledIndicatorColor = Color.Transparent
-            ),
-            shape = RoundedCornerShape(8.dp),
-            modifier = Modifier.fillMaxWidth()
-        )
-
-        errorMessage?.takeIf { it.isNotEmpty() }?.let {
-            Spacer(modifier = Modifier.height(8.dp))
-            Text(
-                text = it,
-                color = Color.Red,
-                fontSize = 14.sp
-            )
-        }
-
-        Spacer(modifier = Modifier.height(24.dp))
-
-        Button(
-            onClick = {
-                scope.launch {
-                    viewModel.login(cedula, password)
-                }
-            },
-            colors = ButtonDefaults.buttonColors(containerColor = Color(0xFFFF9500)),
-            shape = RoundedCornerShape(12.dp),
+        // 2) Formulario perfectamente centrado (sin contar el logo)
+        Column(
             modifier = Modifier
-                .fillMaxWidth(0.6f)
-                .height(50.dp)
+                .align(Alignment.Center)
+                .padding(horizontal = 24.dp),
+            horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Text(
-                text = "Ingresar",
-                color = Color.Black,
-                fontWeight = FontWeight.Bold,
-                fontSize = 16.sp
+                text = "Iniciar Sesión",
+                fontSize = 28.sp,
+                fontWeight = FontWeight.Bold
             )
+
+            Spacer(modifier = Modifier.height(24.dp))
+
+            TextField(
+                value = cedula,
+                onValueChange = { cedula = it },
+                label = { Text("Cédula") },
+                singleLine = true,
+                colors = TextFieldDefaults.colors(
+                    focusedContainerColor = Color(0xFFF5F3EF),
+                    unfocusedContainerColor = Color(0xFFF5F3EF),
+                    focusedIndicatorColor = Color.Transparent,
+                    unfocusedIndicatorColor = Color.Transparent
+                ),
+                shape = RoundedCornerShape(8.dp),
+                modifier = Modifier.fillMaxWidth()
+            )
+
+            Spacer(modifier = Modifier.height(16.dp))
+
+            TextField(
+                value = password,
+                onValueChange = { password = it },
+                label = { Text("Contraseña") },
+                singleLine = true,
+                colors = TextFieldDefaults.colors(
+                    focusedContainerColor = Color(0xFFF5F3EF),
+                    unfocusedContainerColor = Color(0xFFF5F3EF),
+                    focusedIndicatorColor = Color.Transparent,
+                    unfocusedIndicatorColor = Color.Transparent
+                ),
+                shape = RoundedCornerShape(8.dp),
+                modifier = Modifier.fillMaxWidth()
+            )
+
+            if (!errorMessage.isNullOrEmpty()) {
+                Spacer(modifier = Modifier.height(8.dp))
+                Text(errorMessage!!, color = Color.Red, fontSize = 14.sp)
+            }
+
+            Spacer(modifier = Modifier.height(24.dp))
+
+            Button(
+                onClick = { scope.launch { viewModel.login(cedula, password) } },
+                colors = ButtonDefaults.buttonColors(containerColor = Color(0xFFFF9500)),
+                shape = RoundedCornerShape(12.dp),
+                modifier = Modifier
+                    .fillMaxWidth(0.6f)
+                    .height(50.dp)
+            ) {
+                Text(
+                    text = "Ingresar",
+                    color = Color.Black,
+                    fontWeight = FontWeight.Bold,
+                    fontSize = 16.sp
+                )
+            }
         }
     }
 }

@@ -1,6 +1,8 @@
 package com.app.parkingapp.components.bottomNavigationBar
 
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AccountCircle
 import androidx.compose.material.icons.filled.Home
@@ -26,7 +28,9 @@ fun BottomNavigationBar(navController: NavController) {
     val currentRoute = navBackStackEntry?.destination?.route
 
     NavigationBar(
-        modifier = Modifier.fillMaxWidth(),
+        modifier = Modifier
+            .fillMaxWidth()
+            .height(54.dp),
         tonalElevation = 8.dp
     ) {
         items.forEach { item ->
@@ -44,8 +48,7 @@ fun BottomNavigationBar(navController: NavController) {
                         }
                     }
                 },
-                icon = { Icon(imageVector = item.icon, contentDescription = item.label) },
-                label = { Text(item.label) }
+                icon = { Icon(imageVector = item.icon, contentDescription = item.label, modifier = Modifier.size(30.dp)) },
             )
         }
     }
