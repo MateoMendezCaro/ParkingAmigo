@@ -22,21 +22,15 @@ import kotlinx.coroutines.launch
 
 @Composable
 fun LoginScreen(navController: NavController) {
-    // Obtengo la instancia de ViewModel con Hilt
     val viewModel: LoginViewModel = hiltViewModel()
 
-    // Estados locales para campos de texto
     var cedula by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
 
-    // Estados expuestos por el ViewModel
     val errorMessage by viewModel.errorMessage.collectAsState()
     val loginSuccess by viewModel.loginSuccess.collectAsState()
-
-    // Scope para lanzar coroutines desde la UI
     val scope = rememberCoroutineScope()
 
-    // Efecto para navegar al Home cuando loginSuccess cambia a true
     LaunchedEffect(loginSuccess) {
         if (loginSuccess) {
             navController.navigate(NavRoutes.HomeScreen.route) {
@@ -54,7 +48,6 @@ fun LoginScreen(navController: NavController) {
     ) {
         Spacer(modifier = Modifier.height(40.dp))
 
-        // Logo superior
         Image(
             painter = painterResource(id = R.drawable.logo_parking_amigo),
             contentDescription = "Logo Parking Amigo",
@@ -65,7 +58,6 @@ fun LoginScreen(navController: NavController) {
 
         Spacer(modifier = Modifier.height(40.dp))
 
-        // Título
         Text(
             text = "Iniciar Sesión",
             fontSize = 28.sp,
@@ -74,7 +66,6 @@ fun LoginScreen(navController: NavController) {
 
         Spacer(modifier = Modifier.height(24.dp))
 
-        // Campo Cédula
         TextField(
             value = cedula,
             onValueChange = { cedula = it },
@@ -94,7 +85,6 @@ fun LoginScreen(navController: NavController) {
 
         Spacer(modifier = Modifier.height(16.dp))
 
-        // Campo Contraseña
         TextField(
             value = password,
             onValueChange = { password = it },
@@ -112,7 +102,6 @@ fun LoginScreen(navController: NavController) {
             modifier = Modifier.fillMaxWidth()
         )
 
-        // Mensaje de error
         errorMessage?.takeIf { it.isNotEmpty() }?.let {
             Spacer(modifier = Modifier.height(8.dp))
             Text(
@@ -124,7 +113,6 @@ fun LoginScreen(navController: NavController) {
 
         Spacer(modifier = Modifier.height(24.dp))
 
-        // Botón de Ingresar
         Button(
             onClick = {
                 scope.launch {
