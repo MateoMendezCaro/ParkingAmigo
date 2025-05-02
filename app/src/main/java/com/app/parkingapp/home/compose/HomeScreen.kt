@@ -24,7 +24,7 @@ fun HomeScreen(navController: NavController) {
                 .background(Color.White),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            Spacer(modifier = Modifier.height(24.dp))
+            Spacer(modifier = Modifier.height(150.dp))
 
             Card(
                 modifier = Modifier
@@ -34,28 +34,30 @@ fun HomeScreen(navController: NavController) {
                 colors = CardDefaults.cardColors(containerColor = Color(0xFFF3F1EB))
             ) {
                 Column(
-                    modifier = Modifier.padding(16.dp),
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(vertical = 40.dp),
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
                     Text(
                         text = "Saldo Disponible",
-                        fontSize = 18.sp,
+                        fontSize = 25.sp,
                         fontWeight = FontWeight.Bold,
                         color = Color.Black
                     )
 
-                    Spacer(modifier = Modifier.height(8.dp))
+                    Spacer(modifier = Modifier.height(30.dp))
 
                     Text(
                         text = "$ -- --- --- --",
-                        fontSize = 24.sp,
+                        fontSize = 30.sp,
                         fontWeight = FontWeight.Bold,
                         color = Color(0xFF003366)
                     )
                 }
             }
 
-            Spacer(modifier = Modifier.height(24.dp))
+            Spacer(modifier = Modifier.height(32.dp))
 
             Button(
                 onClick = { /* Aún no tiene destino */ },
@@ -63,10 +65,10 @@ fun HomeScreen(navController: NavController) {
                 shape = RoundedCornerShape(12.dp),
                 modifier = Modifier
                     .fillMaxWidth(0.7f)
-                    .height(50.dp)
+                    .height(70.dp)
                     .padding(vertical = 8.dp)
             ) {
-                Text(text = "Recargas", color = Color.Black, fontWeight = FontWeight.Bold)
+                Text(text = "Recargas", color = Color.Black, fontSize = 25.sp, fontWeight = FontWeight.Bold)
             }
 
             Button(
@@ -75,10 +77,10 @@ fun HomeScreen(navController: NavController) {
                 shape = RoundedCornerShape(12.dp),
                 modifier = Modifier
                     .fillMaxWidth(0.7f)
-                    .height(50.dp)
+                    .height(70.dp)
                     .padding(vertical = 8.dp)
             ) {
-                Text(text = "Movimientos", color = Color.Black, fontWeight = FontWeight.Bold)
+                Text(text = "Movimientos", color = Color.Black, fontSize = 25.sp, fontWeight = FontWeight.Bold)
             }
         }
     }

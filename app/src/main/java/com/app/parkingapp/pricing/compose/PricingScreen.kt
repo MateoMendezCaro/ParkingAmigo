@@ -1,5 +1,6 @@
 package com.app.parkingapp.pricing.compose
 
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -9,31 +10,36 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.font.FontStyle
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
-import com.app.parkingapp.navigation.NavRoutes
+import com.app.parkingapp.R
+import com.app.parkingapp.components.parkingTemplate.ParkingScreen
 import com.app.parkingapp.pricing.viewmodel.TarifasViewModel
 import com.app.parkingapp.pricing.viewmodel.VehiculoTipo
-import com.app.parkingapp.components.parkingTemplate.ParkingScreen
-import com.app.parkingapp.R
 
 @Composable
-fun TarifasScreen(navController: NavController, viewModel: TarifasViewModel = androidx.lifecycle.viewmodel.compose.viewModel()) {
+fun TarifasScreen(
+    navController: NavController,
+    viewModel: TarifasViewModel = viewModel()
+) {
     val tipoSeleccionado by viewModel.tipoSeleccionado
 
     ParkingScreen(navController) {
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(horizontal = 16.dp),
+                .padding(horizontal = 10.dp),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            Spacer(modifier = Modifier.height(50.dp))
+            Spacer(modifier = Modifier.height(60.dp))
 
-            Text(text = "Tarifas", fontSize = 20.sp, color = Color.Black)
+            Text(text = "Tarifas", fontSize = 30.sp, color = Color.Black)
 
-            Spacer(modifier = Modifier.height(16.dp))
+            Spacer(modifier = Modifier.height(20.dp))
 
             Row(
                 horizontalArrangement = Arrangement.SpaceEvenly,
@@ -44,15 +50,21 @@ fun TarifasScreen(navController: NavController, viewModel: TarifasViewModel = an
                 TipoTarifaBoton("Bicicleta", VehiculoTipo.BICICLETA, tipoSeleccionado, viewModel)
             }
 
-            Spacer(modifier = Modifier.height(16.dp))
+            Spacer(modifier = Modifier.height(20.dp))
 
-            ContenidoTarifa(tipoSeleccionado, navController)
+            ContenidoTarifa(tipoSeleccionado)
         }
     }
 }
 
 @Composable
-fun TipoTarifaBoton(label: String, tipo: VehiculoTipo, tipoSeleccionado: VehiculoTipo, viewModel: TarifasViewModel, modifier: Modifier = Modifier) {
+fun TipoTarifaBoton(
+    label: String,
+    tipo: VehiculoTipo,
+    tipoSeleccionado: VehiculoTipo,
+    viewModel: TarifasViewModel,
+    modifier: Modifier = Modifier
+) {
     val colorFondo = if (tipoSeleccionado == tipo) Color(0xFFFFA500) else Color(0xFFEFEFEF)
 
     Button(
@@ -61,48 +73,96 @@ fun TipoTarifaBoton(label: String, tipo: VehiculoTipo, tipoSeleccionado: Vehicul
         modifier = modifier.height(40.dp),
         shape = RoundedCornerShape(8.dp)
     ) {
-        Text(text = label, color = Color.Black, fontSize = 14.sp)
+        Text(text = label, color = Color.Black, fontSize = 18.sp)
     }
 }
 
 @Composable
-fun ContenidoTarifa(tipo: VehiculoTipo, navController: NavController) {
+fun ContenidoTarifa(tipo: VehiculoTipo) {
     val imagen = when (tipo) {
         VehiculoTipo.CARRO -> R.drawable.racingcar
         VehiculoTipo.MOTO -> R.drawable.motorbike
         VehiculoTipo.BICICLETA -> R.drawable.bicycle
     }
 
-    Column(
-        modifier = Modifier.fillMaxWidth(),
-        horizontalAlignment = Alignment.CenterHorizontally
+    Surface(
+        color = Color(0xFFF7F7F7),
+        shape = RoundedCornerShape(12.dp),
+        border = BorderStroke(1.dp, Color.Black),
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(8.dp)
     ) {
-        Image(
-            painter = painterResource(id = imagen),
-            contentDescription = "Icono Vehículo",
-            modifier = Modifier.size(100.dp)
-        )
-
-        Spacer(modifier = Modifier.height(16.dp))
-
-        Button(
-            onClick = { navController.navigate(NavRoutes.PricingDetail.route) },
-            colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF1565C0)),
-            modifier = Modifier.fillMaxWidth().height(48.dp),
-            shape = RoundedCornerShape(8.dp)
+        Column(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(16.dp),
+            horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            Text(text = "Comunidad Amigoniana", color = Color.White)
-        }
+            Image(
+                painter = painterResource(id = imagen),
+                contentDescription = "Icono Vehículo",
+                modifier = Modifier.size(100.dp)
+            )
 
-        Spacer(modifier = Modifier.height(8.dp))
+            Spacer(modifier = Modifier.height(16.dp))
 
-        Button(
-            onClick = { navController.navigate(NavRoutes.PricingDetail.route) },
-            colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF1565C0)),
-            modifier = Modifier.fillMaxWidth().height(48.dp),
-            shape = RoundedCornerShape(8.dp)
-        ) {
-            Text(text = "Visitante", color = Color.White)
+            TarifaCard("Comunidad Amigoniana", "$4.000")
+            Spacer(modifier = Modifier.height(8.dp))
+            TarifaCard("Visitante Hora", "$4.000")
+            Spacer(modifier = Modifier.height(8.dp))
+            TarifaCard("Visitante Día", "$4.000")
+
+            Spacer(modifier = Modifier.height(24.dp))
         }
     }
 }
+
+@Composable
+fun TarifaCard(titulo: String, valor: String) {
+    Column(horizontalAlignment = Alignment.CenterHorizontally) {
+        Surface(
+            color = Color(0xFF1E88A8), //
+            shape = RoundedCornerShape(50),
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(40.dp)
+        ) {
+            Box(contentAlignment = Alignment.Center) {
+                Text(
+                    text = titulo,
+                    color = Color.White,
+                    fontWeight = FontWeight.Bold,
+                    fontSize = 16.sp,
+                    modifier = Modifier.padding(horizontal = 12.dp)
+                )
+            }
+        }
+
+        Spacer(modifier = Modifier.height(4.dp))
+
+        Row(
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.Center
+        ) {
+            Icon(
+                painter = painterResource(id = R.drawable.relojcircular),
+                contentDescription = "Reloj",
+                tint = Color.Black,
+                modifier = Modifier.size(20.dp)
+            )
+            Spacer(modifier = Modifier.width(6.dp))
+            Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                Text(text = "Tarifa día", color = Color.Black, fontSize = 19.sp)
+                Text(
+                    text = valor,
+                    color = Color.Black,
+                    fontSize = 20.sp,
+                    fontStyle = FontStyle.Italic,
+                    fontWeight = FontWeight.Bold
+                )
+            }
+        }
+    }
+}
+
