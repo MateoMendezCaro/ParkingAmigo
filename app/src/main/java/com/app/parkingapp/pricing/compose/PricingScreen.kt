@@ -3,8 +3,6 @@ package com.app.parkingapp.pricing.compose
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
@@ -16,25 +14,27 @@ import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.app.parkingapp.R
 import com.app.parkingapp.components.parkingTemplate.ParkingScreen
 import com.app.parkingapp.pricing.viewmodel.TarifasViewModel
 import com.app.parkingapp.pricing.viewmodel.VehiculoTipo
+import com.app.parkingamigo.domain.model.Tarifa
 
 @Composable
 fun TarifasScreen(
     navController: NavController,
-    viewModel: TarifasViewModel = viewModel()
+    viewModel: TarifasViewModel = hiltViewModel()
 ) {
     val tipoSeleccionado by viewModel.tipoSeleccionado
+    val tarifas by viewModel.tarifasPorTipo
 
     ParkingScreen(navController) {
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(start = 12.dp, end = 12.dp, bottom = 8.dp), // menos bottom
+                .padding(start = 12.dp, end = 12.dp, bottom = 8.dp),
             verticalArrangement = Arrangement.Top,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
@@ -57,9 +57,9 @@ fun TarifasScreen(
 
             Spacer(modifier = Modifier.height(10.dp))
 
-            // Ya no usamos weight(1f); la card se ajusta a su contenido
             ContenidoTarifa(
                 tipo = tipoSeleccionado,
+                tarifas = tarifas,
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(top = 10.dp)
@@ -94,6 +94,7 @@ private fun TipoBoton(
 @Composable
 private fun ContenidoTarifa(
     tipo: VehiculoTipo,
+    tarifas: List<Tarifa>,
     modifier: Modifier = Modifier
 ) {
     val imagen = when (tipo) {
@@ -122,21 +123,28 @@ private fun ContenidoTarifa(
 
             Spacer(modifier = Modifier.height(16.dp))
 
-            TarifaCard("Comunidad Amigoniana", "$4.000")
-            Spacer(modifier = Modifier.height(12.dp))
-            TarifaCard("Visitante Hora", "$4.000")
-            Spacer(modifier = Modifier.height(12.dp))
-            TarifaCard("Visitante Día", "$4.000")
+            tarifas.filter { it.amigoniano }.forEach {
+                TarifaCard("Comunidad Amigoniana", "$${it.valor}")
+                Spacer(modifier = Modifier.height(12.dp))
+            }
+
+            tarifas.filter { !it.amigoniano && it.hora == 1 }.forEach {
+                TarifaCard("Visitante Hora", "$${it.valor}")
+                Spacer(modifier = Modifier.height(12.dp))
+            }
+
+            tarifas.filter { !it.amigoniano && it.hora == 24 }.forEach {
+                TarifaCard("Visitante Día", "$${it.valor}")
+            }
 
             Spacer(modifier = Modifier.height(20.dp))
 
-            // Botón sin altura fija, con padding interno
             Button(
                 onClick = { /* acción de recargar */ },
                 modifier = Modifier.fillMaxWidth(0.6f),
                 shape = RoundedCornerShape(8.dp),
                 colors = ButtonDefaults.buttonColors(containerColor = Color(0xFFFFA500)),
-                contentPadding = PaddingValues(vertical = 12.dp) // ajusta altura al contenido
+                contentPadding = PaddingValues(vertical = 12.dp)
             ) {
                 Text(
                     text = "Recargar",

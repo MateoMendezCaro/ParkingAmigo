@@ -21,7 +21,7 @@ fun BottomNavigationBar(navController: NavController) {
     val items = listOf(
         BottomNavItem("Principal", Icons.Default.Home, NavRoutes.HomeScreen.route),
         BottomNavItem("Tarifas", Icons.Default.Info, NavRoutes.Pricing.route),
-        BottomNavItem("Perfil", Icons.Default.AccountCircle, NavRoutes.HomeScreen.route)
+        BottomNavItem("Perfil", Icons.Default.AccountCircle, NavRoutes.Profile.route)
     )
 
     val navBackStackEntry by navController.currentBackStackEntryAsState()
