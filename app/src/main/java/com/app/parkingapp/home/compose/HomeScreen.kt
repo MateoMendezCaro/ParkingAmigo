@@ -70,7 +70,7 @@ fun HomeScreen(navController: NavController) {
             ) {
                 StyledActionButton(
                     label = "Recargas",
-                    onClick = {  }
+                    onClick = { navController.navigate(NavRoutes.Recargas.route) }
                 )
                 Spacer(modifier = Modifier.height(22.dp))
                 StyledActionButton(

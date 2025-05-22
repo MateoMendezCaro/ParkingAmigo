@@ -12,20 +12,22 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.app.parkingapp.components.parkingTemplate.ParkingScreen
-import com.app.parkingapp.movimiento.model.MovementItem
 import com.app.parkingapp.movimiento.viewModel.MovimientosViewModel
 import com.app.parkingapp.navigation.NavRoutes
+import com.app.parkingamigo.domain.model.Movimiento
 
 @Composable
-fun MovimientosScreen(navController: NavController) {
-    val viewModel: MovimientosViewModel = viewModel()
+fun MovimientosScreen(
+    navController: NavController,
+    viewModel: MovimientosViewModel = hiltViewModel()
+) {
     val movimientos by viewModel.movimientos.collectAsState()
+    val loading    by viewModel.loading.collectAsState()
 
     ParkingScreen(navController) {
         Column(
@@ -33,7 +35,7 @@ fun MovimientosScreen(navController: NavController) {
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Text(
-                text = "Movimientos",
+                "Movimientos",
                 fontSize = 20.sp,
                 modifier = Modifier.padding(vertical = 16.dp)
             )
@@ -42,33 +44,48 @@ fun MovimientosScreen(navController: NavController) {
                 modifier = Modifier
                     .fillMaxWidth()
                     .weight(1f),
-                contentPadding = PaddingValues(bottom = 16.dp)
+                contentPadding = PaddingValues(horizontal = 16.dp, vertical = 8.dp)
             ) {
-                itemsIndexed(movimientos) { index, movimiento ->
+                itemsIndexed(movimientos) { _, movimiento ->
                     MovimientoCard(movimiento) {
-                        navController.navigate("${NavRoutes.MovementDetail.route}/${movimiento.id}")
-                    }
-
-                    if (index == movimientos.lastIndex && movimientos.size < 24) {
-                        LaunchedEffect(Unit) {
-                            viewModel.loadMore()
-                        }
+                        navController.navigate(
+                            "${NavRoutes.MovementDetail.route}/${movimiento.referencia}"
+                        )
                     }
                 }
             }
-            Icon(
-                imageVector = Icons.Default.KeyboardArrowUp,
-                contentDescription = "Cargar más",
-                modifier = Modifier.padding(6.dp)
-            )
-            Text("Cargar movimientos", modifier = Modifier.padding(bottom = 6.dp))
+
+            Spacer(Modifier.height(8.dp))
+
+            when {
+                loading -> {
+                    CircularProgressIndicator(modifier = Modifier.padding(16.dp))
+                }
+                viewModel.hasMoreMovimientos() -> {
+                    Button(
+                        onClick = { viewModel.loadMore() },
+                        modifier = Modifier
+                            .padding(vertical = 12.dp)
+                            .fillMaxWidth(0.8f)
+                    ) {
+                        Icon(Icons.Default.KeyboardArrowUp, contentDescription = null)
+                        Spacer(Modifier.width(8.dp))
+                        Text("Cargar más movimientos")
+                    }
+                }
+                else -> {
+                    Text("No hay más movimientos", color = Color.Gray)
+                }
+            }
         }
     }
 }
 
-
 @Composable
-fun MovimientoCard(movimiento: MovementItem, onClick: () -> Unit) {
+fun MovimientoCard(
+    movimiento: Movimiento,
+    onClick: () -> Unit
+) {
     Card(
         modifier = Modifier
             .fillMaxWidth()
@@ -86,19 +103,15 @@ fun MovimientoCard(movimiento: MovementItem, onClick: () -> Unit) {
             verticalAlignment = Alignment.CenterVertically
         ) {
             Text(
-                text = movimiento.descripcion,
+                text = movimiento.origen,
                 fontSize = 16.sp,
                 color = Color.Black,
-                modifier = Modifier
-                    .weight(1f)
-                    .padding(end = 12.dp)
+                modifier = Modifier.weight(1f)
             )
-
             Text(
                 text = movimiento.fecha,
                 fontSize = 14.sp,
-                color = Color.Black,
-                maxLines = 1
+                color = Color.Black
             )
         }
     }

@@ -8,4 +8,5 @@ sealed class NavRoutes(val route: String) {
     object Movement : NavRoutes("Movement")
     object MovementDetail : NavRoutes("MovementDetail")
     object Profile : NavRoutes("profile")
+    object Recargas: NavRoutes("RecargaScreen")
 }

@@ -21,6 +21,7 @@ import com.app.parkingapp.components.parkingTemplate.ParkingScreen
 import com.app.parkingapp.pricing.viewmodel.TarifasViewModel
 import com.app.parkingapp.pricing.viewmodel.VehiculoTipo
 import com.app.parkingamigo.domain.model.Tarifa
+import com.app.parkingapp.navigation.NavRoutes
 
 @Composable
 fun TarifasScreen(
@@ -60,6 +61,7 @@ fun TarifasScreen(
             ContenidoTarifa(
                 tipo = tipoSeleccionado,
                 tarifas = tarifas,
+                navController = navController,
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(top = 10.dp)
@@ -95,6 +97,7 @@ private fun TipoBoton(
 private fun ContenidoTarifa(
     tipo: VehiculoTipo,
     tarifas: List<Tarifa>,
+    navController: NavController,
     modifier: Modifier = Modifier
 ) {
     val imagen = when (tipo) {
@@ -140,7 +143,7 @@ private fun ContenidoTarifa(
             Spacer(modifier = Modifier.height(20.dp))
 
             Button(
-                onClick = { /* acción de recargar */ },
+                onClick = { navController.navigate(NavRoutes.Recargas.route)},
                 modifier = Modifier.fillMaxWidth(0.6f),
                 shape = RoundedCornerShape(8.dp),
                 colors = ButtonDefaults.buttonColors(containerColor = Color(0xFFFFA500)),
