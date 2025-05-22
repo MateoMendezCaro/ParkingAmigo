@@ -8,7 +8,11 @@ data class UserLoginResponse(
 )
 
 data class UserDto(
+    val id: String,
+    val nombre: String,
+    val apellidos: String,
+    val correo: String,
     val cedula: String
 ) {
-    fun toDomain(): User = User(cedula)
+    fun toDomain(): User = User(id, nombre, apellidos, correo, cedula)
 }

@@ -12,24 +12,23 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.app.parkingapp.components.parkingTemplate.ParkingScreen
 import com.app.parkingapp.movimiento.viewModel.MovimientosViewModel
-import androidx.lifecycle.viewmodel.compose.viewModel
 
 @Composable
 fun MovimientoDetalleScreen(
     navController: NavController,
-    movimientoId: Int,
-    viewModel: MovimientosViewModel = viewModel()
+    movimientoId: String,
+    viewModel: MovimientosViewModel
 ) {
-    val movimiento = viewModel.getMovimientoById(movimientoId)
+    val movimiento = viewModel.getMovimientoByReferencia(movimientoId)
 
     ParkingScreen(navController) {
         movimiento?.let {
             Column(
-                modifier = Modifier
-                    .fillMaxSize(),
+                modifier = Modifier.fillMaxSize(),
                 verticalArrangement = Arrangement.Center,
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
@@ -43,32 +42,28 @@ fun MovimientoDetalleScreen(
                     verticalArrangement = Arrangement.Center,
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
-                    Text(text = it.fecha, fontSize = 16.sp, color = Color.Black)
-                    Spacer(modifier = Modifier.height(40.dp))
-                    Text(text = it.descripcion, fontSize = 18.sp, color = Color.Black)
-                    Spacer(modifier = Modifier.height(50.dp))
-                    Text(text = "$ ${it.precio}", fontSize = 26.sp, color = Color(0xFF1A7895))
-                    Spacer(modifier = Modifier.height(50.dp))
-                    Text(text = "descargar: ${it.comprobante}", fontSize = 16.sp, color = Color.Black)
-                    Spacer(modifier = Modifier.height(38.dp))
-                    Text(text = it.referencia, fontSize = 16.sp, color = Color.Black)
-                    Spacer(modifier = Modifier.height(38.dp))
-                    Text(text = it.dispositivo, fontSize = 16.sp, color = Color.Black)
+                    Text("Fecha: ${it.fecha}", fontSize = 16.sp)
+                    Spacer(Modifier.height(20.dp))
+                    Text("Origen: ${it.origen}", fontSize = 18.sp)
+                    Spacer(Modifier.height(20.dp))
+                    Text(
+                        "Monto: $${it.monto}",
+                        fontSize = 26.sp,
+                        color = Color(0xFF1A7895)
+                    )
+                    Spacer(Modifier.height(20.dp))
+                    Text("Comprobante: ${it.comprobante}", fontSize = 16.sp)
+                    Spacer(Modifier.height(20.dp))
+                    Text("Referencia: ${it.referencia}", fontSize = 16.sp)
+                    Spacer(Modifier.height(20.dp))
+                    Text("Tarifa: ${it.tarifaId}", fontSize = 16.sp)
                 }
             }
-        } ?: run {
-            Column(
-                modifier = Modifier
-                    .fillMaxSize(),
-                verticalArrangement = Arrangement.Center,
-                horizontalAlignment = Alignment.CenterHorizontally
-            ) {
-                Text(
-                    text = "Movimiento no encontrado",
-                    color = Color.Red,
-                    fontSize = 16.sp
-                )
-            }
+        } ?: Box(
+            Modifier.fillMaxSize(),
+            contentAlignment = Alignment.Center
+        ) {
+            Text("Movimiento no encontrado", color = Color.Red)
         }
     }
 }

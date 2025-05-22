@@ -27,7 +27,6 @@ android {
         jvmTarget = "17"
     }
     hilt {
-        // turn off the JavaPoet‑based aggregating task so Hilt uses a slower but compatible variant
         enableAggregatingTask = false
     }
 }

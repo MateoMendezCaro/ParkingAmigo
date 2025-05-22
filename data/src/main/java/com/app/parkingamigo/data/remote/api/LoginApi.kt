@@ -1,15 +1,13 @@
 package com.app.parkingamigo.data.remote.api
-
 import com.app.parkingamigo.data.remote.dto.UserLoginResponse
-import retrofit2.http.FormUrlEncoded
+import retrofit2.http.Body
+import retrofit2.http.Headers
 import retrofit2.http.POST
-import retrofit2.http.Field
+
+data class LoginRequest(val cedula: String, val contraseña: String)
 
 interface LoginApi {
-    @FormUrlEncoded
-    @POST("login.php")
-    suspend fun login(
-        @Field("cedula") cedula: String,
-        @Field("password") password: String
-    ): UserLoginResponse
+    @Headers("Content-Type: application/json")
+    @POST("login")
+    suspend fun login(@Body request: LoginRequest): UserLoginResponse
 }
